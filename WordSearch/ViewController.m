@@ -48,6 +48,16 @@ NSMutableArray *wordsFound;
     _wordBoxTextView.text = wordBoxAsOneWord;
 }
 
+-(void)increasePointCount {
+    pointCount++;
+    _pointCountLabel.text = [NSString stringWithFormat:@"%i", pointCount];
+}
+
+-(void)addFoundWordToListOfFoundWords:(NSString *)word {
+    [wordsFound addObject:word];
+    [_wordsFoundTableView reloadData];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return wordsFound.count;
 }
@@ -66,10 +76,8 @@ NSMutableArray *wordsFound;
     NSString *wordToSearch = _wordToSearchTextField.text;
     
     if ([wordBoxAsOneWord containsString:wordToSearch]) {
-        pointCount++;
-        _pointCountLabel.text = [NSString stringWithFormat:@"%i", pointCount];
-        [wordsFound addObject:wordToSearch];
-        [_wordsFoundTableView reloadData];
+        [self increasePointCount];
+        [self addFoundWordToListOfFoundWords:wordToSearch];
     } else {
         NSLog(@"Sorry");
     }
